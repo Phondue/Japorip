@@ -1,0 +1,2898 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japorip</title>
+    <!-- Lexend フォントをGoogle Fontsから読み込む -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* 背景画像を設定 */
+        body {
+            font-family: 'Lexend', sans-serif; /* Lexendフォントを設定 */
+            margin: 0;
+            padding: 20px;
+            background-color: white;
+            background-size: cover; /* 画像が画面全体にフィットするように */
+            background-position: center; /* 画像が画面の中央に配置される */
+            background-attachment: fixed; /* スクロールしても背景が固定される */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 40px;
+            color: #333;
+        }
+        h2 {
+            margin-top: 60px; /* Japoripとの間にスペースを空ける */
+            font-size: 18px;
+            color: #666;
+        }
+
+        .side-button {
+  background-color: transparent;  /* 背景を透明に */
+  color: #000000;                 /* 文字色 */
+  padding: 10px 20px;             /* ボタン内の余白 */
+  font-size: 25px;                /* 文字の大きさ */
+  font-weight: bold;
+  cursor: pointer; 
+  font-family: 'Lexend', sans-serif !important;
+}
+
+#question-text {
+            font-size: 25px;
+        }
+
+        /* サイドメニュー */
+.side-menu {
+  position: fixed;
+  top: 0;
+  font-family: 'Lexend', sans-serif;
+  right: -300px; /* ← 最初は画面外 */
+  width: 250px;
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+  padding: 20px;
+  margin-top: 80px;
+  transition: right 0.3s ease;
+  z-index: 1000;
+}
+
+/* 表示されたとき */
+.side-menu.active {
+  right: 0; /* ← スライドしてくる */
+}
+
+/* メニューの中身 */
+.side-menu ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 40px;
+}
+
+/* ヘッダーの全体レイアウト */
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background-color: #dedede;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
+}
+
+/* タイトル部分 */
+.header-title {
+  font-size: 40px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* ボタンアイコンの並び */
+.header-buttons {
+  display: flex;
+  gap: 15px;
+  margin-right: 20px;
+}
+
+/* アイコンボタンの見た目 */
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.icon-button img {
+  width: 40px;
+  height: 40px;
+}
+
+        .hero-banner {
+    position: relative;
+    width: 100%;
+    height: 570px;
+    overflow: hidden;
+    margin-top: 80px;     /* 上のボタンと少し間をあける */
+    margin-bottom: 5px;   /* 下との余白も少し増やすと余裕が出ます */
+    border-radius: 50px;   /* 柔らかい角、100pxだと丸すぎることがあるので少し調整 */
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: auto;      /* ブラウザに最適な画質で表示させる */
+    display: block;
+    border-radius: inherit;     /* .hero-bannerの丸みに合わせる */
+}
+
+
+
+        /* メニューボタンのスタイルを調整（正方形にする） */
+        .menu-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* テキストを下に寄せる */
+  align-items: center;
+  width: 200px;
+  height: 200px;  /* 高さを少し増やして、画像とテキストのスペース確保 */
+  padding: 10px;
+  background-color: #c0c0c0;
+  color: white;
+  border: none;
+  border-radius: 30%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-family: 'Lexend', sans-serif !important;
+}
+
+.menu-button img {
+  width: 180px;     /* 横幅を小さくする */
+  height: 165px;    /* 高さも合わせて小さく */
+  object-fit: cover;
+  border-radius: 30%;
+  margin-bottom: 15px;
+  margin-top: 1px;
+}
+
+
+.menu-button {
+  position: relative; /* ← これ大事。btn-textのposition:absoluteの基準にするため */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu-button .btn-text {
+  position: relative; /* absoluteやめる */
+}
+
+
+button:hover {
+    background-color: #c0c0c0;
+}
+
+
+        /* 他のボタンは元のスタイルを維持 */
+        button {
+            padding: 30px 60px;
+            font-size: 25px;
+            cursor: pointer;
+            background-color: #e3e843ed;
+            color: white;
+            border: none;
+            border-radius: 1000px;
+            margin: 10px;
+            transition: background-color 0.3s;
+            font-family: 'Lexend', sans-serif !important;
+        }
+
+        button:hover {
+            background-color: #888885;
+        }
+
+        /* Intro screen styling */
+        .intro-container {
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        /* ボタンコンテナのスタイル */
+        .question-container .button-container {
+            display: flex;
+            flex-direction: row; /* 質問のボタンは横並び */
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .update-container {
+            text-align: center;
+            display: none;
+        }
+
+        .update-container h1 {
+            font-size: 50px;
+            color: #333;
+        }
+
+        .update-container p {
+            font-size: 24px;
+            color: #000000;
+            margin: 20px;
+        }
+        .aboutJaporip-container {
+    text-align: center;
+    display: none;
+}
+
+.aboutJaporip-container h2 {
+    font-size: 40px;
+    color: #444;
+    font-weight: 600; /* ← 少し太く */
+}
+
+.aboutJaporip-container h3 {
+    font-size: 24px; /* ← 小さめ */
+    color: #000000;
+    font-weight: normal; /* ← 細く */
+    margin: 20px;
+}
+
+
+
+        /* Question and result screens */
+        .question, #suggested-places {
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 200px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .question-container, .result-container {
+            text-align: center;
+            font-size: 60px; /* 質問部分の文字サイズを大きく */
+            background-color: #f9f9f9;
+            padding: 3px;
+            border-radius: 400px; /* 丸角にする */
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            margin: 200px auto;
+        }
+
+
+        /* 結果のスタイル */
+        #result {
+            display: none;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        /* intro画面のボタン配置を横並び＋左寄せに */
+        /* intro画面のボタン配置を横並び＋左寄せに */
+#intro-container .button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px; /* バナーの下にスペースをつける */
+}
+
+
+    </style>
+</head>
+<body>
+  <div class="hero-banner">
+    <img src="c:\Users\parop\Downloads\Japorip (3).png" alt="Hero Banner Image" class="hero-image">
+</div>
+<!-- サイドメニュー本体 -->
+<div id="side-menu" class="side-menu">
+  <button class="side-button" onclick="goHome()" title="Home">Home</button>
+  <button class="side-button" onclick="" title="COMING SOON">coming soon!</button>
+  <button class="side-button" onclick="showAboutJaporip()" title="About Japorip">About Japorip</button>
+</div>
+
+<!-- ヘッダー部分 -->
+<header class="main-header">
+  <div class="header-title">Japorip</div>
+  <div class="header-buttons">
+    <button class="icon-button" onclick="showUpdateInfo()" title="UPDATE">
+      <img src="c:\Users\parop\Downloads\ei-random-removebg-preview.png" alt="Menu">
+    </button>
+    <button class="icon-button" onclick="goHome()" title="HOME">
+      <img src="c:\Users\parop\Downloads\ei-home-removebg-preview.png" alt="Home">
+    </button>
+    <button class="icon-button" onclick="toggleMenu()" title="MENU">
+      <img src="c:\Users\parop\Downloads\ei-menu-removebg-preview.png" alt="Menu">
+    </button>
+  </div>
+</header>
+
+
+    <!-- Intro Screen -->
+    <div class="intro-container" id="intro-container">
+        <div class="button-container" id="button-container">
+            <button class="menu-button" id="start-button" onclick="startQuiz('normal')">
+                <img src="https://www.free-materials.com/adm/wp-content/uploads/2019/04/adpDSC_3274-.jpg" alt="Pineapple Image">
+                <span class="btn-text">Tourist spot</span>
+            </button>
+            <button class="menu-button" onclick="startQuiz('noodle')">
+                <img src="https://th.bing.com/th/id/OIP.s7OnmUychzUApz_4PrmmdgHaE8?rs=1&pid=ImgDetMain" alt="Pineapple Image">
+                <span class="btn-text">Noodle</span>
+            </button>
+            <button class="menu-button" onclick="startQuiz('play')">
+              <img src="https://www.free-materials.com/adm/wp-content/uploads/2018/02/adpIMGP2441-.jpg" alt="Pineapple Image">
+              <span class="btn-text">Play</span>
+            </button>
+        </div>
+    </div>
+    <script>
+      function toggleMenu() {
+        const menu = document.getElementById('side-menu');
+        menu.classList.toggle('active');
+      }
+    </script>    
+    <div class="update-container" id="update-container">
+        <p>Current version: Beta</p>
+        <p>Next update: Version 1.0</p>
+        <p>3 new diagnoses coming soon!</p>
+        <button onclick="goHome()">Go to home</button>
+    </div>
+    <div class="aboutJaporip-container" id="aboutJaporip-container">
+      <h2>what is Japorip?</h2>
+      <h3>Japorip is a website that asks you a variety of<div>questions and helps you decide on the best place<div>in Japan for you. Japorip has questions in a wide<div>variety of genres. Japorip's goal is for people from<div>all over the world to travel to Japan through this website,<div>discover its charms, and fall in love with it. We hope that you<div>will fall in love with Japan through this website.
+      </h3>
+      <button onclick="goHome()">Go to home</button>
+  </div>
+    <!-- Result Screen -->
+    <div id="result" style="display: none;">
+        <h2>Result</h2>
+        <div id="suggested-places"></div>
+        <div id="tourist-spots"></div>
+        <button onclick="restartQuiz()">Go to home</button>
+        <button onclick="planTrip()">Coming soon</button>
+    </div>
+
+    <div id="question-container" style="display: none;">
+        <div id="question-text"></div>
+        <div class="button-container">
+            <!-- 質問の選択肢ボタンがここに表示されます -->
+        </div>
+    </div>
+    
+    <script>
+        // 質問の表示部分
+        function showQuestion() {
+            const question = questionSet[currentQuestionIndex];
+            document.getElementById('question-text').innerText = question.question;
+            const buttonContainer = document.querySelector('#question-container .button-container');
+            buttonContainer.innerHTML = ''; // 前のボタンをクリア
+
+            // 質問に応じて選択肢ボタンを表示
+            if (question.options) {
+                question.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.innerText = option;
+                    button.onclick = () => handleAnswer(option);
+                    buttonContainer.appendChild(button);
+                });
+            } else 
+                // yes/no質問の場合
+                ['Yes', 'No'].forEach(option => {
+                    const button = document.createElement('button');
+                    button.innerText = option;
+                    button.onclick = () => handleAnswer(option);
+                    buttonContainer.appendChild(button);
+                });
+            }
+
+        const normalQuestions = [
+    { question: "Do you like warm climates?", yes: ["Okinawa", "Fukuoka", "Kanagawa", "Hyogo", "Chiba"], no: ["Hokkaido", "Gifu", "Yamagata", "Niigata"] },
+    { question: "Are you interested in history and culture?", yes: ["Kyoto", "Nara", "Tokyo", "Okayama", "Hiroshima"], no: ["Hokkaido", "Gifu", "Fukui", "Aichi"] },
+    { question: "Do you want to see beautiful natural landscapes?", yes: ["Nagano", "Yamanashi", "Hokkaido", "Aomori", "Iwate"], no: ["Osaka", "Kyoto", "Saitama", "Chiba"] },
+    { question: "Do you want to visit hot spring resorts?", yes: ["Gunma", "Gifu", "Hokkaido", "Oita", "Kumamoto"], no: ["Okinawa", "Osaka", "Aichi", "Tokyo"] },
+    { question: "Do you like the sea?", yes: ["Okinawa", "Kanagawa", "Fukuoka", "Shizuoka", "Mie"], no: ["Hokkaido", "Nagano", "Yamanashi", "Tochigi"] },
+    { question: "Do you want to visit cities?", yes: ["Tokyo", "Osaka", "Fukuoka", "Aichi", "Kanagawa"], no: ["Nagano", "Yamanashi", "Tochigi", "Gifu"] },
+    { question: "Do you want to enjoy snowy landscapes?", yes: ["Hokkaido", "Niigata", "Nagano", "Yamagata", "Toyama"], no: ["Okinawa", "Kanagawa", "Chiba", "Fukuoka"] },
+    { question: "Do you like hiking?", yes: ["Nagano", "Yamanashi", "Toyama", "Gifu", "Akita"], no: ["Osaka", "Okinawa", "Kagawa", "Aichi"] },
+    { question: "Do you want to enjoy delicious food?", yes: ["Osaka", "Fukuoka", "Hokkaido", "Hiroshima", "Aichi"], no: ["Okinawa", "Nagano", "Yamanashi", "Kagoshima"] },
+    { question: "Do you want to visit popular places?", yes: ["Tokyo", "Kyoto", "Osaka", "Kanagawa", "Nagoya"], no: ["Hokkaido", "Gifu", "Oita", "Tokushima"] }
+];
+
+const noodleQuestions = [
+    { 
+        question: "Do you prefer thick or thin noodles?", 
+        options: ["Thick noodles", "Thin noodles"], 
+        points: { 
+            "Thick noodles": ["Fukuoka", "Nagasaki", "Kanagawa", "Aichi"],  // Regions known for thick noodles
+            "Thin noodles": ["Tokyo", "Hokkaido", "Iwate", "Tochigi"]   // Regions known for thin noodles
+        }
+    },
+    { 
+        question: "Do you prefer rich or light flavor?", 
+        options: ["Rich", "Light"], 
+        points: { 
+            "Rich": ["Fukuoka", "Osaka", "Aichi", "Kanagawa"],  // Regions known for rich ramen
+            "Light": ["Hokkaido", "Kyoto", "Tokyo", "Nagano"]   // Regions known for light ramen
+        }
+    },
+    { 
+        question: "Do you prefer pork or fish?", 
+        options: ["Pork", "Fish"], 
+        points: { 
+            "Pork": ["Fukuoka", "Nagasaki", "Kumamoto", "Oita"],  // Regions known for pork-based broth
+            "Fish": ["Tokyo", "Hokkaido", "Kanagawa", "Fukui"]   // Regions known for fish-based broth
+        }
+    },
+    { 
+        question: "Do you like spicy ramen?", 
+        options: ["Yes", "No"], 
+        points: { 
+            "Yes": ["Aichi", "Kanagawa", "Miyagi", "Iwate"],  // Regions known for spicy ramen
+            "No": ["Hokkaido", "Nagano", "Fukui", "Gunma"]   // Regions known for non-spicy ramen
+        }
+    }
+];
+
+const playQuestions = [
+    {
+        question: "Would you prefer an indoor climbing wall and ninja training \npark or an indoor obstacle course and athletics park?",
+        options: ["Ninja training", "Athletic"],
+        points: {
+            "Ninja training": ["Nara", "Tokyo", "Osaka", "Kyoto"],
+            "Athletic": ["Fukuoka", "Tokyo", "Kanagawa", "Aichi"]
+        }
+    },
+    {
+        question: "Do you prefer indoor trampoline jumping or indoor skating or ice skating?",
+        options: ["Trampoline", "Skating"],
+        points: {
+            "Trampoline": ["Tokyo", "Fukuoka", "Osaka", "Miyagi"],
+            "Skating": ["Hokkaido", "Tokyo", "Hyogo", "Aichi"]
+        }
+    },
+    {
+        question: "Do you prefer waterslides and indoor water parks or big theme parks with rides and characters?",
+        options: ["Water park", "Theme park"],
+        points: {
+            "Water park": ["Shizuoka", "Gunma", "Kumamoto", "Mie"],
+            "Theme park": ["Chiba", "Osaka", "Aichi"]
+        }
+    },
+   
+     
+    {
+        question: "Do you prefer go-kart rides or a floor full of arcade games?",
+        options: ["Go-kart", "Arcade"],
+        points: {
+            "Go-kart": ["Aichi", "Osaka", "Fukuoka", "Hiroshima"],
+            "Arcade": ["Tokyo", "Kanagawa", "Osaka", "Fukuoka"]
+        }
+    },
+];
+
+
+    const touristSpots = {
+"Hokkaido": [
+{
+"name": "Sapporo Clock Tower",
+"description": "A symbolic building of Hokkaido and a historical tourist attraction.",
+"image": "https://th.bing.com/th/id/OIP.cm7dqNFDqqiha-Kq26fM8AHaFi?rs=1&pid=ImgDetMain"
+},
+{
+"name": "Otaru Canal",
+"description": "Old warehouses line the beautiful canal, and the night lighting is attractive.",
+"image": "Image URL or path"
+},
+{
+"name": "Furano",
+"description": "A tourist destination where you can enjoy beautiful lavender fields and nature.",
+"image": "Image URL or path"
+}
+],
+"Aomori": [
+{
+"name": "Mount Hakkoda",
+"description": "A beautiful mountain where you can enjoy hiking and skiing.",
+
+"image": "Image URL or path"
+
+},
+{
+
+"name": "Hirosaki Castle",
+
+"description": "A historic castle also known as a famous cherry blossom viewing spot.",
+
+"image": "Image URL or path"
+
+},
+{
+
+"name": "Aomori Museum of Art",
+
+"description": "A museum with a wide variety of contemporary art exhibits.",
+
+"image": "Image URL or path"
+
+}
+],
+"Iwate": [
+{
+
+"name": "Hiraizumi",
+
+"description": "The Golden Hall of Chusonji Temple, a World Heritage Site, is located here.",
+
+"image": "Image URL or path"
+
+},
+{
+
+"name": "Morioka Castle Ruins",
+
+"description": "A symbol of the historic city of Morioka, this is a place with beautiful cherry blossoms. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Tono",
+"description": "A famous place as the setting for folk tales and legends. ",
+"image": "Image URL or Path"
+}
+],
+"Miyagi": [
+{
+"name": "Sendai Castle Ruins",
+"description": "A tourist spot in Sendai known for the name of Date Masamune. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Matsushima",
+"description": "One of the Three Most Viewed Places in Japan, this scenic spot is dotted with beautiful islands. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Naruko Onsen",
+"description": "A resort where you can enjoy hot springs and beautiful natural scenery. ",
+"image": "Image URL or Path"
+}
+],
+"Akita": [
+{
+"name": "Oga Peninsula",
+"description": "Beautiful coastline, snowy scenery in winter.",
+"image": "Image URL or Path"
+},
+{
+"name": "Akita Onsenkyo",
+"description": "Relaxing hot spring resort.",
+"image": "Image URL or Path"
+},
+{
+"name": "Kakunodate",
+"description": "A town famous for its beautiful samurai residences and cherry blossoms.",
+"image": "Image URL or Path"
+}
+],
+"Yamagata": [
+{
+"name": "Yamadera",
+"description": "A mountainous region with magnificent views and ancient temples. ",
+"image": "Image URL or path"
+},
+{
+"name": "Zao Onsen",
+"description": "A tourist destination with attractive winter snow scenery and hot springs. ",
+"image": "Image URL or path"
+},
+{
+"name": "Yonezawa",
+"description": "A region with many historical townscapes and tourist attractions. ",
+"image": "Image URL or path"
+}
+],
+"Fukushima": [
+{
+"name": "Ouchijuku",
+"description": "A tourist destination where the townscape of the good old days remains. ",
+"image": "Image URL or path"
+},
+{
+"name": "Lake Inawashiro",
+"description": "A resort area with a beautiful lake and nature. ",
+"image": "Image URL or path"
+},
+{
+"name": "Fukushima City",
+"description": "A tourist destination where history and nature are in harmony. ",
+"image": "Image URL or Path"
+}
+],
+"Ibaraki": [
+{
+"name": "Mito Kairakuen",
+"description": "One of the three most famous gardens in Japan, it is a beautiful garden. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Mount Tsukuba",
+"description": "A famous mountain where you can enjoy hiking and the scenery. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Oarai Isosaki Shrine",
+"description": "A shrine dedicated to the god of the sea, it is a scenic place. ",
+"image": "Image URL or Path"
+}
+],
+"Tochigi": [
+{
+"name": "Nikko Toshogu Shrine",
+"description": "A World Heritage Site with historical buildings and beautiful gardens. ",
+"image": "Image URL or path"
+},
+{
+"name": "Kinugawa Onsen",
+"description": "Relax in one of Japan's leading hot spring areas. ",
+"image": "Image URL or path"
+},
+{
+"name": "Nasu Highlands",
+"description": "A tourist destination where you can enjoy the great outdoors. ",
+"image": "Image URL or path"
+}
+],
+"Gunma": [
+{
+"name": "Kusatsu Onsen",
+"description": "A hot spring area famous for its famous hot spring, Kusatsu. ",
+"image": "Image URL or path"
+},
+{
+"name": "Mount Haruna",
+"description": "You can enjoy beautiful scenery and mountain climbing. ",
+"image": "Image URL or path"
+},
+{
+"name": "Shima Onsen",
+"description": "A hot spring area famous for its secret hot springs. ",
+"image": "Image URL or Path"
+}
+],
+"Saitama": [
+{
+"name": "Chichibu Night Festival",
+"description": "One of the three major night festivals in Japan, it is a gorgeous festival. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Kawagoe",
+"description": "Known as Little Edo, it has an attractive old-fashioned streetscape. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Nagatoro",
+"description": "A tourist destination where you can enjoy beautiful valleys and rafting. ",
+"image": "Image URL or Path"
+}
+],
+"Chiba": [
+{
+"name": "Tokyo Disneyland",
+"description": "A world-famous theme park. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Naritasan Shinshoji",
+"description": "A historic temple near Narita Airport. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Tateyama",
+"description": "A popular resort destination with its beautiful sea and warm climate. ",
+"image": "Image URL or Path"
+}
+],
+"Tokyo": [
+{
+"name": "Tokyo Tower",
+"description": "An iconic Tokyo landmark. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Sensoji",
+"description": "A historic temple famous for its Kaminarimon Gate. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Shinjuku Gyoen",
+"description": "Enjoy the nature of the four seasons in this vast garden. ",
+"image": "Image URL or Path"
+}
+],
+"Kanagawa": [
+{
+"name": "Kamakura Daibutsu",
+"description": "A famous tourist spot for its large Buddha statue. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Yokohama Minato Mirai",
+"description": "A tourist area with a panoramic view of modern buildings and the sea. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Hakone Onsen",
+"description": "A resort where you can enjoy nature and hot springs. ",
+"image": "Image URL or path"
+}
+],
+"Niigata": [
+{
+"name": "Sado Island",
+"description": "An island rich in nature, where you can also enjoy history and culture. ",
+"image": "Image URL or path"
+},
+{
+"name": "Niigata City",
+"description": "A seaside town where you can enjoy fresh seafood. ",
+"image": "Image URL or path"
+},
+{
+"name": "Myoko Kogen",
+"description": "A highland area where you can enjoy nature in every season. ",
+"image": "Image URL or path"
+}
+],
+"Toyama": [
+{
+"name": "Tateyama",
+"description": "A tourist destination with majestic mountains and beautiful scenery. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Takaoka Daibutsu",
+"description": "A famous tourist spot with a large Buddha statue. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Toyama Bay",
+"description": "A place where you can enjoy a beautiful coastline and fresh seafood. ",
+"image": "Image URL or Path"
+}
+],
+"Ishikawa": [
+{
+"name": "Kanazawa City",
+"description": "A town rich in tradition and culture, famous for Kenrokuen Garden. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Shirakawa-go",
+"description": "A beautiful village with a collection of gassho-style houses. ",
+"image": "Image URL or path"
+},
+{
+"name": "Noto Peninsula",
+"description": "A tourist spot with a beautiful coastline and nature. ",
+"image": "Image URL or path"
+}
+],
+"Fukui": [
+{
+"name": "Eiheiji",
+"description": "Famous as a Zen temple, it has a quiet environment. ",
+"image": "Image URL or path"
+},
+{
+"name": "Tojinbo",
+"description": "A tourist spot with beautiful cliff scenery. ",
+"image": "Image URL or path"
+},
+{
+"name": "Fukui Prefectural Dinosaur Museum",
+"description": "A museum where dinosaur fossils are on display. ",
+"image": "Image URL or Path"
+}
+],
+"Yamanashi": [
+{
+"name": "Mt. Fuji",
+"description": "Japan's tallest mountain, where you can enjoy hiking and sightseeing. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Lake Kawaguchi",
+"description": "A beautiful lake overlooking Mt. Fuji, where you can enjoy sightseeing and leisure activities. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Kofu City",
+"description": "The capital of Yamanashi Prefecture, with many tourist attractions. ",
+"image": "Image URL or Path"
+}
+],
+"Nagano": [
+{
+"name": "Zenkoji Temple",
+"description": "A historic temple that is the symbol of Nagano City. ",
+"image": "Image URL or path"
+},
+{
+"name": "Matsumoto Castle",
+"description": "Famous for its beautiful castle. ",
+"image": "Image URL or path"
+},
+{
+"name": "Karuizawa",
+"description": "A highland resort where you can enjoy sightseeing and outdoor activities. ",
+"image": "Image URL or path"
+}
+],
+"Gifu": [
+{
+"name": "Hida Takayama",
+"description": "A tourist destination where you can enjoy old townscapes and traditional culture. ",
+"image": "Image URL or path"
+},
+{
+"name": "Shirakawa-go",
+"description": "A beautiful village with a collection of gassho-style houses. ",
+"image": "Image URL or path"
+},
+{
+"name": "Gujo Hachiman",
+"description": "Traditional townscape and beautiful nature are attractive. ",
+"image": "Image URL or path"
+}
+],
+"Shizuoka": [
+{
+"name": "Mt. Fuji",
+"description": "Japan's iconic mountain registered as a World Heritage Site. ",
+"image": "Image URL or path"
+},
+{
+"name": "Atami Onsen",
+"description": "A hot spring resort where you can enjoy a warm climate and beautiful coastline. ",
+"image": "Image URL or path"
+},
+{
+"name": "Izu Peninsula",
+"description": "A tourist destination dotted with beautiful coastlines and hot springs. ",
+"image": "Image URL or Path"
+}
+],
+"Aichi": [
+{
+"name": "Nagoya Castle",
+"description": "The castle that is the symbol of the historical Nagoya. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Toyota Stadium",
+"description": "A stadium where you can enjoy watching sports and events. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Port of Nagoya Public Aquarium",
+"description": "An aquarium where you can interact with marine life. ",
+"image": "Image URL or Path"
+}
+],
+"Mie": [
+{
+"name": "Ise Jingu",
+"description": "Japan's most important shrine and a historical site. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Shima Spain Village",
+"description": "An amusement park themed on Spanish culture. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Toba Aquarium",
+"description": "An aquarium where you can see marine life up close. ",
+"image": "Image URL or Path"
+}
+],
+"Shiga": [
+{
+"name": "Hikone Castle",
+"description": "A historic castle with a beautiful garden. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Lake Biwa",
+"description": "Japan's largest lake, where you can enjoy sightseeing along the lakeside. ",
+"image": "Image URL or path"
+},
+{
+"name": "Nagahama",
+"description": "This area has many historical townscapes and tourist attractions. ",
+"image": "Image URL or path"
+}
+],
+"Kyoto": [
+{
+"name": "Kinkaku-ji",
+"description": "A beautiful golden temple with a magnificent garden. ",
+"image": "Image URL or path"
+},
+{
+"name": "Fushimi Inari Taisha",
+"description": "A shrine with rows of red torii gates, representing Kyoto. ",
+"image": "Image URL or path"
+},
+{
+"name": "Arashiyama",
+"description": "The bamboo forest paths are beautiful, and there are many tourist attractions. ",
+"image": "Image URL or Path"
+}
+],
+"Osaka": [
+{
+"name": "Osaka Castle",
+"description": "A historic castle and the symbol of Osaka. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Dotonbori",
+"description": "A famous gourmet and entertainment spot. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Universal Studios Japan",
+"description": "A theme park where you can enjoy the world of movies. ",
+"image": "Image URL or Path"
+}
+],
+"Hyogo": [
+{
+"name": "Himeji Castle",
+"description": "A beautiful castle that is a World Heritage Site. ",
+"image": "Image URL or path"
+},
+{
+"name": "Port of Kobe",
+"description": "A beautiful port town with many tourist attractions. ",
+"image": "Image URL or path"
+},
+{
+"name": "Arima Onsen",
+"description": "One of the three oldest hot springs in Japan, this is a hot spring resort with a long history. ",
+"image": "Image URL or Path"
+}
+],
+"Nara": [
+{
+"name": "Todaiji",
+"description": "A World Heritage Site famous for its giant Buddha statue.",
+"image": "Image URL or Path"
+},
+{
+"name": "Nara Park",
+"description": "A park rich in nature where you can enjoy interacting with deer.",
+"image": "Image URL or Path"
+},
+{
+"name": "Kofuku-ji",
+"description": "A historic temple with beautiful architecture.",
+"image": "Image URL or Path"
+}
+],
+"Wakayama": [
+{
+"name": "Kimiidera",
+"description": "A temple with beautiful scenery. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Shirahama Onsen",
+"description": "A seaside hot spring where you can relax. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Mount Koya",
+"description": "A religious holy site dotted with beautiful temples. ",
+"image": "Image URL or Path"
+}
+],
+"Tottori": [
+{
+"name": "Tottori Sand Dunes",
+"description": "A tourist destination with an attractive vast sand dune. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Sakaiminato",
+"description": "Known as the town of Kitaro, it has many tourist attractions. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Mt. Oyama",
+"description": "A beautiful mountain where you can enjoy hiking and outdoor activities. ",
+"image": "Image URL or Path"
+}
+],
+"Shimane": [
+{
+"name": "Izumo Taisha",
+"description": "The world of myth unfolds at Japan's oldest shrine. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Matsue Castle",
+"description": "A beautiful castle where you can enjoy historical scenery. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Adachi Museum of Art",
+"description": "Beautiful gardens and masterpieces of Japanese painting are on display. ",
+"image": "Image URL or path"
+}
+],
+"Okayama": [
+{
+"name": "Korakuen",
+"description": "One of the three most famous gardens in Japan, it has a beautiful garden. ",
+"image": "Image URL or path"
+},
+{
+"name": "Okayama Castle",
+"description": "A beautiful castle called Crow castle",
+"image": "Image URL or path"
+},
+{
+"name": "Kurashiki Bikan Historical Quarter",
+"description": "Enjoy the old townscape and beautiful scenery. ",
+"image": "Image URL or path"
+}
+],
+"Hiroshima": [
+{
+"name": "Itsukushima Shrine",
+"description": "A shrine floating on the sea, it is registered as a World Heritage Site. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Atomic Bomb Dome",
+"description": "A World Heritage Site in the Hiroshima Peace Memorial Park, a symbol of peace. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Hiroshima Peace Memorial Museum",
+"description": "A facility where you can learn about the history of the atomic bomb. ",
+"image": "Image URL or Path"
+}
+],
+"Yamaguchi": [
+{
+"name": "Kintai Bridge",
+"description": "A beautiful wooden bridge, famous as a tourist spot. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Hagi",
+"description": "A tourist destination with a historic townscape. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Akiyoshidai",
+"description": "Japan's largest karst plateau, with beautiful scenery. ",
+"image": "Image URL or Path"
+}
+],
+"Tokushima": [
+{
+"name": "Naruto Whirlpools",
+"description": "A tourist spot where you can see the world-famous whirlpools. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Awa Odori",
+"description": "A traditional dance festival held every summer. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Oboke-Koboke",
+"description": "A beautiful valley, popular as a tourist spot. ",
+"image": "Image URL or Path"
+}
+],
+"Kagawa": [
+{
+"name": "Ritsurin Garden",
+"description": "A beautiful Japanese garden where you can enjoy the scenery of the four seasons. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Sanuki Udon",
+"description": "A famous spot where you can taste delicious udon, a specialty of Kagawa Prefecture. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Konpira-san",
+"description": "A historic shrine that can be reached by climbing a tall staircase. ",
+"image": "Image URL or Path"
+}
+],
+"Ehime": [
+{
+"name": "Dogo Onsen",
+"description": "Famous as the oldest hot spring in Japan. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Matsuyama Castle",
+"description": "A beautiful castle is located in the city. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Shimanami Kaido",
+"description": "A driving course where you can enjoy beautiful bridges and scenery. ",
+"image": "Image URL or Path"
+}
+],
+"Kochi": [
+{
+"name": "Katsurahama",
+"description": "A tourist spot known for its beautiful coastline and the statue of Sakamoto Ryoma. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Kochi in Tosa",
+"description": "The streets are filled with history and culture. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Shimanto River",
+"description": "Enjoy nature at this beautiful river with clear water. ",
+"image": "Image URL or Path"
+}
+],
+"Fukuoka": [
+{
+"name": "Hakata Station",
+"description": "A famous transportation hub with many shopping and gourmet spots in the surrounding area. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Dazaifu Tenmangu",
+"description": "A shrine dedicated to Sugawara Michizane, the god of learning. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Fukuoka Tower",
+"description": "A tower with an observation deck that offers a panoramic view of Fukuoka city. ",
+"image": "Image URL or Path"
+}
+],
+"Saga": [
+{
+"name": "Saga Castle",
+"description": "A historic castle ruin surrounded by beautiful gardens. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Ureshino Onsen",
+"description": "A hot spring area famous for its skin-beautifying waters. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Karatsu",
+"description": "The historic townscape and beautiful coastline are attractive. ",
+"image": "Image URL or Path"
+}
+],
+"Nagasaki": [
+{
+"name": "Nagasaki Peace Park",
+"description": "A park that tells the history of the atomic bomb. ",
+"image": "Image URL or path"
+},
+{
+"name": "Glover Garden",
+"description": "Enjoy Nagasaki's historical Western-style architecture. ",
+"image": "Image URL or path"
+},
+{
+"name": "Huis Ten Bosch",
+"description": "A theme park that recreates the streets of the Netherlands. ",
+"image": "Image URL or Path"
+}
+],
+"Kumamoto": [
+{
+"name": "Kumamoto Castle",
+"description": "One of the three most famous castles in Japan, it is characterized by its beautiful castle. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Mount Aso",
+"description": "An active volcano, you can enjoy beautiful nature. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Suizenji Jojuen",
+"description": "A beautiful Japanese garden spreads out. ",
+"image": "Image URL or Path"
+}
+],
+"Oita": [
+{
+"name": "Beppu Onsen",
+"description": "Famous as a hot spring resort, hell tours are popular. ",
+"image": "Image URL or path"
+},
+{
+"name": "Yufuin",
+"description": "A tourist destination with beautiful scenery and hot springs. ",
+"image": "Image URL or path"
+},
+{
+"name": "Usuki",
+"description": "A region dotted with historic townscapes and beautiful temples. ",
+"image": "Image URL or path"
+}
+],
+"Miyazaki": [
+{
+"name": "Takachiho Gorge",
+"description": "A tourist destination characterized by beautiful valleys and waterfalls. ",
+"image": "Image URL or path"
+},
+{
+"name": "Miyazaki Jingu",
+"description": "A historic shrine and a quiet place. ",
+"image": "Image URL or path"
+},
+{
+"name": "Aoshima",
+"description": "Beautiful coastline and resort areas are its characteristics. ",
+"image": "Image URL or path"
+}
+],
+"Kagoshima": [
+{
+"name": "Sakurajima",
+"description": "An island famous for its active volcano, with beautiful scenery. ",
+"image": "Image URL or path"
+},
+{
+"name": "Ibusuki Onsen",
+"description": "A hot spring area famous for its sand baths. ",
+"image": "Image URL or path"
+},
+{
+"name": "Kagoshima City Museum of Art",
+"description": "A facility where you can enjoy art and history. ",
+"image": "Image URL or Path"
+}
+],
+"Okinawa": [
+{
+"name": "Shuri Castle",
+"description": "A beautiful castle that gives a sense of Okinawa's history and culture. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Churaumi Aquarium",
+"description": "A huge aquarium where you can see Okinawa's marine life. ",
+"image": "Image URL or Path"
+},
+{
+"name": "Kouri Island",
+"description": "An attractive island with crystal clear waters and beautiful beaches. ",
+"image": "Image URL or Path"
+}
+]
+};
+const ramenInfo = {
+  "Hokkaido": [
+    { 
+      "name": "Sapporo Ramen", 
+      "description": "A representative ramen of Hokkaido, characterized by its rich miso flavor.",
+      "image": "https://example.com/sapporo_ramen.jpg" 
+    },
+    { 
+      "name": "Hakodate Ramen", 
+      "description": "Known for its light salt-based broth, a specialty of Hakodate.",
+      "image": "https://example.com/hakodate_ramen.jpg" 
+    },
+    { 
+      "name": "Asahikawa Ramen", 
+      "description": "Features a strong miso soup with medium-thick curly noodles.",
+      "image": "https://example.com/asahikawa_ramen.jpg" 
+    }
+  ],
+  "Aomori": [
+    { 
+      "name": "Tsugaru Ramen", 
+      "description": "A local ramen from the Tsugaru region of Aomori, with a strong soy sauce broth.",
+      "image": "https://example.com/tsugaru_ramen.jpg" 
+    },
+    { 
+      "name": "Aomori Miso Ramen", 
+      "description": "Rich miso ramen loaded with vegetables and meat.",
+      "image": "https://example.com/aomori_miso_ramen.jpg" 
+    },
+    { 
+      "name": "Hachinohe Ramen", 
+      "description": "A light salt-based ramen made with local ingredients.",
+      "image": "https://example.com/hachinohe_ramen.jpg" 
+    }
+  ],
+  "Iwate": [
+    { 
+      "name": "Morioka Reimen", 
+      "description": "Cold noodles known for their refreshing and light flavor.",
+      "image": "https://example.com/morioka_reimen.jpg" 
+    },
+    { 
+      "name": "Hanamaki Ramen", 
+      "description": "Features a rich soy sauce broth with thin noodles.",
+      "image": "https://example.com/hanamaki_ramen.jpg" 
+    },
+    { 
+      "name": "Iwate Tonkotsu Ramen", 
+      "description": "A rich ramen based on pork bone broth.",
+      "image": "https://example.com/iwate_tonkotsu_ramen.jpg" 
+    }
+  ],
+  "Miyagi": [
+    { 
+      "name": "Sendai Ramen", 
+      "description": "Miso ramen with a kick of spice and deep umami flavor.",
+      "image": "https://example.com/sendai_ramen.jpg" 
+    },
+    { 
+      "name": "Shiogama Ramen", 
+      "description": "Salt-based ramen featuring fresh seafood from the area.",
+      "image": "https://example.com/shiogama_ramen.jpg" 
+    },
+    { 
+      "name": "Akiu Ramen", 
+      "description": "A light soy sauce ramen you can enjoy at Akiu hot springs.",
+      "image": "https://example.com/akiu_ramen.jpg" 
+    }
+  ],
+  "Akita": [
+    { 
+      "name": "Akita Ramen", 
+      "description": "Rich soy sauce broth with thick noodles.",
+      "image": "https://example.com/akita_ramen.jpg" 
+    },
+    { 
+      "name": "Yokote Yakisoba Ramen", 
+      "description": "Ramen cooked on a griddle, similar to yakisoba.",
+      "image": "https://example.com/yokote_yakisoba_ramen.jpg" 
+    },
+    { 
+      "name": "Odate Ramen", 
+      "description": "A simple soy sauce-based ramen.",
+      "image": "https://example.com/odate_ramen.jpg" 
+    }
+  ],
+  "Yamagata": [
+    { 
+      "name": "Yamagata Ramen", 
+      "description": "Known for its deeply flavorful soy sauce broth.",
+      "image": "https://example.com/yamagata_ramen.jpg" 
+    },
+    { 
+      "name": "Yonezawa Ramen", 
+      "description": "Simple yet rich in flavor soup.",
+      "image": "https://example.com/yonezawa_ramen.jpg" 
+    },
+    { 
+      "name": "Tsuruoka Ramen", 
+      "description": "Ramen made with a broth of fresh seafood.",
+      "image": "https://example.com/tsuruoka_ramen.jpg" 
+    }
+  ],
+  "Fukushima": [
+    { 
+      "name": "Aizu Ramen", 
+      "description": "Light soy sauce-based soup.",
+      "image": "https://example.com/aizu_ramen.jpg" 
+    },
+    { 
+      "name": "Kitakata Ramen", 
+      "description": "Flat noodles and a light, clear broth.",
+      "image": "https://example.com/kitakata_ramen.jpg" 
+    },
+    { 
+      "name": "Fukushima Miso Ramen", 
+      "description": "Rich ramen made with locally sourced miso.",
+      "image": "https://example.com/fukushima_miso_ramen.jpg" 
+    }
+  ],
+  "Ibaraki": [
+    { 
+      "name": "Mito Ramen", 
+      "description": "Simple ramen based on a salt broth.",
+      "image": "https://example.com/mito_ramen.jpg" 
+    },
+    { 
+      "name": "Hitachi Ramen", 
+      "description": "Strong soy sauce broth with thick noodles.",
+      "image": "https://example.com/hitachi_ramen.jpg" 
+    },
+    { 
+      "name": "Oarai Ramen", 
+      "description": "Known for its seafood-based soup.",
+      "image": "https://example.com/oharai_ramen.jpg" 
+    }
+  ],
+  "Tochigi": [
+    { 
+      "name": "Utsunomiya Ramen", 
+      "description": "Various miso and salt ramen options available.",
+      "image": "https://example.com/utsunomiya_ramen.jpg" 
+    },
+    { 
+      "name": "Nasu Ramen", 
+      "description": "Ramen with fresh vegetables and meat.",
+      "image": "https://example.com/nasu_ramen.jpg" 
+    },
+    { 
+      "name": "Nikko Ramen", 
+      "description": "Light ramen made with Nikko's famous spring water.",
+      "image": "https://example.com/nikko_ramen.jpg" 
+    }
+  ],
+  "Gunma": [
+    { 
+      "name": "Maebashi Ramen", 
+      "description": "Soy sauce ramen made with local ingredients.",
+      "image": "https://example.com/maebashi_ramen.jpg" 
+    },
+    { 
+      "name": "Takasaki Ramen", 
+      "description": "A unique blend of miso and soy sauce ramen.",
+      "image": "https://example.com/takasaki_ramen.jpg" 
+    },
+    { 
+      "name": "Isesaki Ramen", 
+      "description": "A simple and popular ramen.",
+      "image": "https://example.com/isesaki_ramen.jpg" 
+    }
+  ],
+  "Saitama": [
+    { 
+      "name": "Kawagoe Ramen", 
+      "description": "Soy sauce-based ramen with a light flavor.",
+      "image": "https://example.com/kawagoe_ramen.jpg" 
+    },
+    { 
+      "name": "Omiya Ramen", 
+      "description": "Characterized by its rich miso broth.",
+      "image": "https://example.com/omiya_ramen.jpg" 
+    },
+    { 
+      "name": "Koshigaya Ramen", 
+      "description": "Ramen with Japanese-style dashi and tonkotsu broth.",
+      "image": "https://example.com/koshigaya_ramen.jpg" 
+    }
+  ],
+  "Chiba": [
+    { 
+      "name": "Chiba Ramen", 
+      "description": "Rich ramen with a pork bone base.",
+      "image": "https://example.com/chiba_ramen.jpg" 
+    },
+    { 
+      "name": "Funabashi Ramen", 
+      "description": "Famous salt ramen using local ingredients.",
+      "image": "https://example.com/funabashi_ramen.jpg" 
+    },
+    { 
+      "name": "Narita Ramen", 
+      "description": "Light soy sauce broth with thin noodles.",
+      "image": "https://example.com/narita_ramen.jpg" 
+    }
+  ],
+  "Tokyo": [
+    { 
+      "name": "Tokyo Ramen", 
+      "description": "Variety of soy sauce and miso ramen.",
+      "image": "https://example.com/tokyo_ramen.jpg" 
+    },
+    { 
+      "name": "Tsukemen", 
+      "description": "A style of ramen where noodles and soup are served separately.",
+      "image": "https://example.com/tsukemen.jpg" 
+    },
+    { 
+      "name": "Ramen Jiro", 
+      "description": "Hefty servings of ramen with a strong garlic punch.",
+      "image": "https://example.com/ramen_jiro.jpg" 
+    }
+  ],
+  "Kanagawa": [
+    { 
+      "name": "Yokohama Ramen", 
+      "description": "Ramen with a pork bone-based broth.",
+      "image": "https://example.com/yokohama_ramen.jpg" 
+    },
+    { 
+      "name": "Fujisawa Ramen", 
+      "description": "Known for its simple salt-based flavor.",
+      "image": "https://example.com/fujisawa_ramen.jpg" 
+    },
+    { 
+      "name": "Kawasaki Ramen", 
+      "description": "Soup made with local seafood.",
+      "image": "https://example.com/kawasaki_ramen.jpg" 
+    }
+  ],
+  "Niigata": [
+    { 
+      "name": "Niigata Ramen", 
+      "description": "Light soy sauce-based ramen.",
+      "image": "https://example.com/niigata_ramen.jpg" 
+    },
+    { 
+      "name": "Nagaoka Ramen", 
+      "description": "Deep-flavored soup combining pork bone and soy sauce.",
+      "image": "https://example.com/nagaoka_ramen.jpg" 
+    },
+    { 
+      "name": "Joetsu Ramen", 
+      "description": "Salt-based ramen featuring local ingredients.",
+      "image": "https://example.com/joetsu_ramen.jpg" 
+    }
+  ],
+  "Toyama": [
+    { 
+      "name": "Toyama Ramen", 
+      "description": "Simple salt-flavored soup.",
+      "image": "https://example.com/toyama_ramen.jpg" 
+    },
+    { 
+      "name": "Takaoka Ramen", 
+      "description": "Ramen made with local seafood.",
+      "image": "https://example.com/takaoka_ramen.jpg" 
+    },
+    { 
+      "name": "Himi Ramen", 
+      "description": "Richly flavored ramen made with seafood from Himi.",
+      "image": "https://example.com/himi_ramen.jpg" 
+    }
+  ],
+  "Ishikawa": [
+    { 
+      "name": "Kanazawa Ramen", 
+      "description": "Light salt soup with thin noodles.",
+      "image": "https://example.com/kanazawa_ramen.jpg" 
+    },
+    { 
+      "name": "Noto Ramen", 
+      "description": "Soup made with local seafood.",
+      "image": "https://example.com/noto_ramen.jpg" 
+    },
+    { 
+      "name": "Komatsu Ramen", 
+      "description": "Rich miso ramen.",
+      "image": "https://example.com/komatsu_ramen.jpg" 
+    }
+  ],
+  "Fukui": [
+    { 
+      "name": "Fukui Ramen", 
+      "description": "Light soy sauce ramen.",
+      "image": "https://example.com/fukui_ramen.jpg" 
+    },
+    { 
+      "name": "Echizen Ramen", 
+      "description": "Soup made with seafood from Fukui.",
+      "image": "https://example.com/echizen_ramen.jpg" 
+    },
+    { 
+      "name": "Katsuyama Ramen", 
+      "description": "Light salt ramen.",
+      "image": "https://example.com/katsuyama_ramen.jpg" 
+    }
+  ],
+  "Yamanashi": [
+    { 
+      "name": "Kofu Ramen", 
+      "description": "A light soup based on chicken broth.",
+      "image": "https://example.com/kofu_ramen.jpg" 
+    },
+    { 
+      "name": "Minami-Alps Ramen", 
+      "description": "Gentle-flavored ramen made with local water.",
+      "image": "https://example.com/minami_arupusu_ramen.jpg" 
+    },
+    { 
+      "name": "Fujiyoshida Ramen", 
+      "description": "Features thick noodles and a strong-flavored soup.",
+      "image": "https://example.com/fujiyoshida_ramen.jpg" 
+    }
+  ],
+  "Nagano": [
+    { 
+      "name": "Nagano Ramen", 
+      "description": "Ramen with a soy sauce base.",
+      "image": "https://example.com/nagano_ramen.jpg" 
+    },
+    { 
+      "name": "Matsumoto Ramen", 
+      "description": "Light salt-based ramen.",
+      "image": "https://example.com/matsumoto_ramen.jpg" 
+    },
+    { 
+      "name": "Saku Ramen", 
+      "description": "Ramen made with local ingredients.",
+      "image": "https://example.com/saku_ramen.jpg" 
+    }
+  ],
+  "Gifu": [
+    { 
+      "name": "Gifu Ramen", 
+      "description": "Characterized by a sweet soy sauce broth.",
+      "image": "https://example.com/gifu_ramen.jpg" 
+    },
+    { 
+      "name": "Ogaki Ramen", 
+      "description": "Features a rich soy sauce broth and thin noodles.",
+      "image": "https://example.com/ogaki_ramen.jpg" 
+    },
+    { 
+      "name": "Takayama Ramen", 
+      "description": "A light, salt-based ramen.",
+      "image": "https://example.com/takayama_ramen.jpg" 
+    }
+  ],
+  "Shizuoka": [
+    { 
+      "name": "Shizuoka Ramen", 
+      "description": "Light soy sauce broth with thin noodles.",
+      "image": "https://example.com/shizuoka_ramen.jpg" 
+    },
+    { 
+      "name": "Hamamatsu Ramen", 
+      "description": "A rich salt-based ramen.",
+      "image": "https://example.com/hamamatsu_ramen.jpg" 
+    },
+    { 
+      "name": "Fuji Ramen", 
+      "description": "A simple yet deep flavor with a chicken-based broth.",
+      "image": "https://example.com/fuji_ramen.jpg" 
+    }
+  ],
+  "Aichi": [
+    { 
+      "name": "Nagoya Ramen", 
+      "description": "A rich broth made with Nagoya's miso.",
+      "image": "https://example.com/nagoya_ramen.jpg" 
+    },
+    { 
+      "name": "Toyohashi Ramen", 
+      "description": "A light soy-based broth.",
+      "image": "https://example.com/toyohashi_ramen.jpg" 
+    },
+    { 
+      "name": "Okazaki Ramen", 
+      "description": "A ramen with a rich miso-based broth.",
+      "image": "https://example.com/okazaki_ramen.jpg" 
+    }
+  ],
+  "Mie": [
+    { 
+      "name": "Tsu Ramen", 
+      "description": "A light soy-based ramen.",
+      "image": "https://example.com/tsu_ramen.jpg" 
+    },
+    { 
+      "name": "Matsusaka Ramen", 
+      "description": "A ramen based on pork bone broth.",
+      "image": "https://example.com/matsusaka_ramen.jpg" 
+    },
+    { 
+      "name": "Ise Ramen", 
+      "description": "A ramen made with fresh seafood.",
+      "image": "https://example.com/ise_ramen.jpg" 
+    }
+  ],
+  "Shiga": [
+    { 
+      "name": "Otsu Ramen", 
+      "description": "A light broth made with carefully selected chicken bones.",
+      "image": "https://example.com/otsu_ramen.jpg" 
+    },
+    { 
+      "name": "Hikone Ramen", 
+      "description": "A rich miso-based broth.",
+      "image": "https://example.com/hikone_ramen.jpg" 
+    },
+    { 
+      "name": "Nagahama Ramen", 
+      "description": "Pork bone broth with thick noodles.",
+      "image": "https://example.com/nagahama_ramen.jpg" 
+    }
+  ],
+  "Kyoto": [
+    { 
+      "name": "Kyoto Ramen", 
+      "description": "A light soy sauce broth.",
+      "image": "https://example.com/kyoto_ramen.jpg" 
+    },
+    { 
+      "name": "Hachijo Ramen", 
+      "description": "A ramen with a spicy broth.",
+      "image": "https://example.com/hachijo_ramen.jpg" 
+    },
+    { 
+      "name": "Fushimi Ramen", 
+      "description": "A simple salt-based ramen.",
+      "image": "https://example.com/fushimi_ramen.jpg" 
+    }
+  ],
+  "Osaka": [
+    { 
+      "name": "Osaka Ramen", 
+      "description": "A ramen with a pork bone broth and thick noodles.",
+      "image": "https://example.com/osaka_ramen.jpg" 
+    },
+    { 
+      "name": "Sakai Ramen", 
+      "description": "A light soy ramen.",
+      "image": "https://example.com/sakai_ramen.jpg" 
+    },
+    { 
+      "name": "Tennoji Ramen", 
+      "description": "A ramen with a unique flavor.",
+      "image": "https://example.com/tennoji_ramen.jpg" 
+    }
+  ],
+  "Hyogo": [
+    { 
+      "name": "Kobe Ramen", 
+      "description": "A rich pork bone ramen.",
+      "image": "https://example.com/kobe_ramen.jpg" 
+    },
+    { 
+      "name": "Himeji Ramen", 
+      "description": "A light soy sauce broth.",
+      "image": "https://example.com/himeji_ramen.jpg" 
+    },
+    { 
+      "name": "Kakogawa Ramen", 
+      "description": "A rich pork bone broth with a deep flavor.",
+      "image": "https://example.com/kakogawa_ramen.jpg" 
+    }
+  ],
+  "Nara": [
+    { 
+      "name": "Nara Ramen", 
+      "description": "A light soy sauce broth using local ingredients.",
+      "image": "https://example.com/nara_ramen.jpg" 
+    },
+    { 
+      "name": "Yamato Ramen", 
+      "description": "A light salt ramen.",
+      "image": "https://example.com/yamato_ramen.jpg" 
+    },
+    { 
+      "name": "Sakurai Ramen", 
+      "description": "A ramen with a simple taste.",
+      "image": "https://example.com/sakurai_ramen.jpg" 
+    }
+  ],
+  "Wakayama": [
+    { 
+      "name": "Wakayama Ramen", 
+      "description": "A pork bone soy broth ramen.",
+      "image": "https://example.com/wakayama_ramen.jpg" 
+    },
+    { 
+      "name": "Kinokawa Ramen", 
+      "description": "A light broth with a deep richness.",
+      "image": "https://example.com/kinokawa_ramen.jpg" 
+    },
+    { 
+      "name": "Hashimoto Ramen", 
+      "description": "A light salt broth ramen.",
+      "image": "https://example.com/hashimoto_ramen.jpg" 
+    }
+  ],
+  "Tottori": [
+    { 
+      "name": "Tottori Ramen", 
+      "description": "A light soy ramen.",
+      "image": "https://example.com/tottori_ramen.jpg" 
+    },
+    { 
+      "name": "Yonago Ramen", 
+      "description": "A deep pork bone flavor ramen.",
+      "image": "https://example.com/yonago_ramen.jpg" 
+    },
+    { 
+      "name": "Kurayoshi Ramen", 
+      "description": "A simple light salt ramen.",
+      "image": "https://example.com/kurayoshi_ramen.jpg" 
+    }
+  ],
+  "Shimane": [
+    { 
+      "name": "Matsue Ramen", 
+      "description": "A light soy-based broth.",
+      "image": "https://example.com/matsue_ramen.jpg" 
+    },
+    { 
+      "name": "Izumo Ramen", 
+      "description": "A pork bone broth ramen.",
+      "image": "https://example.com/izumo_ramen.jpg" 
+    },
+    { 
+      "name": "Unnan Ramen", 
+      "description": "A ramen made with local ingredients.",
+      "image": "https://example.com/unnan_ramen.jpg" 
+    }
+  ],
+  "Okayama": [
+    { 
+      "name": "Okayama Ramen", 
+      "description": "A light soy broth ramen.",
+      "image": "https://example.com/okayama_ramen.jpg" 
+    },
+    { 
+      "name": "Kurashiki Ramen", 
+      "description": "A deep pork bone flavor ramen.",
+      "image": "https://example.com/kurashiki_ramen.jpg" 
+    },
+    { 
+      "name": "Tamano Ramen", 
+      "description": "A ramen made with seafood broth.",
+      "image": "https://example.com/tamano_ramen.jpg" 
+    }
+  ],
+  "Hiroshima": [
+    { 
+      "name": "Hiroshima Ramen", 
+      "description": "A pork bone-based ramen.",
+      "image": "https://example.com/hiroshima_ramen.jpg" 
+    },
+    { 
+      "name": "Onomichi Ramen", 
+      "description": "A soy-based broth with straight noodles.",
+      "image": "https://example.com/onochi_ramen.jpg" 
+    },
+    { 
+      "name": "Fukuyama Ramen", 
+      "description": "A light soy ramen.",
+      "image": "https://example.com/fukuyama_ramen.jpg" 
+    }
+  ],
+  "Yamaguchi": [
+    { 
+      "name": "Yamaguchi Ramen", 
+      "description": "A light salt ramen.",
+      "image": "https://example.com/yamaguchi_ramen.jpg" 
+    },
+    { 
+      "name": "Shimonoseki Ramen", 
+      "description": "A rich pork bone broth ramen.",
+      "image": "https://example.com/shimonoseki_ramen.jpg" 
+    },
+    { 
+      "name": "Iwakuni Ramen", 
+      "description": "A light chicken broth ramen.",
+      "image": "https://example.com/iwakuni_ramen.jpg" 
+    }
+  ],
+  "Tokushima": [
+    { 
+      "name": "Tokushima Ramen", 
+      "description": "A pork and chicken broth with a sweet flavor.",
+      "image": "https://example.com/tokushima_ramen.jpg" 
+    },
+    { 
+      "name": "Awa Ramen", 
+      "description": "A rich pork bone broth.",
+      "image": "https://example.com/awa_ramen.jpg" 
+    },
+    { 
+      "name": "Naruto Ramen", 
+      "description": "A simple salt ramen.",
+      "image": "https://example.com/naruto_ramen.jpg" 
+    }
+  ],
+  "Kagawa": [
+    { 
+      "name": "Sanuki Ramen", 
+      "description": "A soy-based light broth.",
+      "image": "https://example.com/sanuki_ramen.jpg" 
+    },
+    { 
+      "name": "Takamatsu Ramen", 
+      "description": "A chicken-based ramen.",
+      "image": "https://example.com/takamatsu_ramen.jpg" 
+    },
+    { 
+      "name": "Marugame Ramen", 
+      "description": "A slightly rich soy ramen.",
+      "image": "https://example.com/marugame_ramen.jpg" 
+    }
+  ],
+  "Ehime": [
+    { 
+      "name": "Matsuyama Ramen", 
+      "description": "A light salt-based ramen.",
+      "image": "https://example.com/matsuyama_ramen.jpg" 
+    },
+    { 
+      "name": "Imabari Ramen", 
+      "description": "A rich pork bone broth.",
+      "image": "https://example.com/ima_bari_ramen.jpg" 
+    },
+    { 
+      "name": "Niihama Ramen", 
+      "description": "A simple salt ramen.",
+      "image": "https://example.com/niihama_ramen.jpg" 
+    }
+  ],
+  "Kochi": [
+    { 
+      "name": "Kochi Ramen", 
+      "description": "A broth made from both pork and chicken bones.",
+      "image": "https://example.com/kochi_ramen.jpg" 
+    },
+    { 
+      "name": "Tosa Ramen", 
+      "description": "A soy-based light ramen.",
+      "image": "https://example.com/tosa_ramen.jpg" 
+    },
+    { 
+      "name": "Nankoku Ramen", 
+      "description": "A ramen made with local ingredients.",
+      "image": "https://example.com/nankoku_ramen.jpg" 
+    }
+  ],
+  "Fukuoka": [
+    { 
+      "name": "Hakata Ramen", 
+      "description": "A rich tonkotsu ramen.",
+      "image": "https://example.com/hakata_ramen.jpg" 
+    },
+    { 
+      "name": "Kurume Ramen", 
+      "description": "A traditional tonkotsu ramen.",
+      "image": "https://example.com/kurume_ramen.jpg" 
+    },
+    { 
+      "name": "Dazaifu Ramen", 
+      "description": "A ramen made with pork bones.",
+      "image": "https://example.com/dazaifu_ramen.jpg" 
+    }
+  ],
+  "Saga": [
+    { 
+      "name": "Saga Ramen", 
+      "description": "A pork-based ramen.",
+      "image": "https://example.com/saga_ramen.jpg" 
+    },
+    { 
+      "name": "Tosu Ramen", 
+      "description": "A ramen with a unique flavor.",
+      "image": "https://example.com/tosu_ramen.jpg" 
+    },
+    { 
+      "name": "Karatsu Ramen", 
+      "description": "A ramen made with chicken broth.",
+      "image": "https://example.com/karatsu_ramen.jpg" 
+    }
+  ],
+  "Nagasaki": [
+    { 
+      "name": "Nagasaki Ramen", 
+      "description": "A rich tonkotsu ramen.",
+      "image": "https://example.com/nagasaki_ramen.jpg" 
+    },
+    { 
+      "name": "Isahaya Ramen", 
+      "description": "A rich soy-based ramen.",
+      "image": "https://example.com/isahaya_ramen.jpg" 
+    },
+    { 
+      "name": "Sasebo Ramen", 
+      "description": "A ramen made with a chicken broth.",
+      "image": "https://example.com/sasebo_ramen.jpg" 
+    }
+  ],
+  "Kumamoto": [
+    { 
+      "name": "Kumamoto Ramen", 
+      "description": "特徴的な豚骨スープと太麺が特徴。",
+      "image": "https://example.com/kumamoto_ramen.jpg" 
+    },
+    { 
+      "name": "Yatsushiro Ramen", 
+      "description": "A light and simple salt ramen.",
+      "image": "https://example.com/yatsushiro_ramen.jpg" 
+    },
+    { 
+      "name": "Aso Ramen", 
+      "description": "A ramen made with a combination of pork bone and soy sauce.",
+      "image": "https://example.com/aso_ramen.jpg" 
+    }
+  ],
+  "Oita": [
+    { 
+      "name": "Oita Ramen", 
+      "description": "A ramen made with pork bone broth.",
+      "image": "https://example.com/oita_ramen.jpg" 
+    },
+    { 
+      "name": "Beppu Ramen", 
+      "description": "A simple ramen with a salt-based broth.",
+      "image": "https://example.com/beppu_ramen.jpg" 
+    },
+    { 
+      "name": "Nakatsu Ramen", 
+      "description": "A ramen with a spicy broth.",
+      "image": "https://example.com/nakatsu_ramen.jpg" 
+    }
+  ],
+  "Miyazaki": [
+    { 
+      "name": "Miyazaki Ramen", 
+      "description": "A light pork bone broth ramen.",
+      "image": "https://example.com/miyazaki_ramen.jpg" 
+    },
+    { 
+      "name": "Hinata Ramen", 
+      "description": "A simple salt ramen.",
+      "image": "https://example.com/hinata_ramen.jpg" 
+    },
+    { 
+      "name": "Miyakonjo Ramen", 
+      "description": "A rich ramen with a strong broth.",
+      "image": "https://example.com/miyakonjo_ramen.jpg" 
+    }
+  ],
+  "Kagoshima": [
+    { 
+      "name": "Kagoshima Ramen", 
+      "description": "A rich pork bone broth ramen.",
+      "image": "https://example.com/kagoshima_ramen.jpg" 
+    },
+    { 
+      "name": "Kirishima Ramen", 
+      "description": "A light and simple salt-based ramen.",
+      "image": "https://example.com/kirishima_ramen.jpg" 
+    },
+    { 
+      "name": "Amami Ramen", 
+      "description": "A ramen with a soft and mild broth.",
+      "image": "https://example.com/amami_ramen.jpg" 
+    }
+  ],
+  "Okinawa": [
+    { 
+      "name": "Okinawa Ramen", 
+      "description": "A ramen based on pork bone broth.",
+      "image": "https://example.com/okinawa_ramen.jpg" 
+    },
+    { 
+      "name": "Naha Ramen", 
+      "description": "A ramen made with unique ingredients from Okinawa.",
+      "image": "https://example.com/naha_ramen.jpg" 
+    },
+    { 
+      "name": "Miyako Ramen", 
+      "description": "A light salt-based ramen.",
+      "image": "https://example.com/miyako_ramen.jpg" 
+    }
+  ]
+};
+const playSpots = {
+  "Hokkaido": [
+    {
+      name: "Asahiyama Zoo",
+      description: "A popular zoo where you can see unique exhibits and get up close to animals like penguins and polar bears.",
+      image: ""
+    },
+    {
+      name: "Furano Ski Resort",
+      description: "A family-friendly ski resort offering slopes for all skill levels, snow activities, and scenic views.",
+      image: ""
+    },
+    {
+      name: "Sapporo Maruyama Zoo",
+      description: "A well-known zoo in Sapporo where families can enjoy seeing a wide variety of animals, including rare species.",
+      image: ""
+    }
+  ],
+  "Kyoto": [
+    {
+      name: "Kyoto Railway Museum",
+      description: "An interactive museum where families can explore the history of trains and experience the fun of train simulators.",
+      image: ""
+    },
+    {
+      name: "Toei Kyoto Studio Park",
+      description: "A theme park offering live-action samurai performances, historical village tours, and interactive activities for families.",
+      image: ""
+    },
+    {
+      name: "Kyoto Botanical Garden",
+      description: "A spacious garden where families can explore a variety of plants, flowers, and outdoor spaces for picnics and relaxation.",
+      image: ""
+    }
+  ],
+  "Aomori": [
+    {
+      name: "Asamushi Onsen",
+      description: "A relaxing hot spring resort ideal for families, featuring outdoor baths and beautiful views.",
+      image: ""
+    },
+    {
+      name: "Hakkoda Ski Resort",
+      description: "A family-friendly ski resort with gentle slopes, perfect for kids and beginners.",
+      image: ""
+    },
+    {
+      name: "Aomori Museum of Art",
+      description: "An art museum with a variety of interactive exhibits and workshops for children and families.",
+      image: ""
+    }
+  ],
+
+  "Iwate": [
+    {
+      name: "Koiwai Farm",
+      description: "A large farm where kids can experience farm life, pet animals, and enjoy fresh dairy products.",
+      image: ""
+    },
+    {
+      name: "Morioka Ice Arena",
+      description: "An indoor ice rink where families can enjoy ice skating and other winter activities.",
+      image: ""
+    },
+    {
+      name: "Geibikei Gorge",
+      description: "A scenic gorge offering boat rides, perfect for a family day trip surrounded by nature.",
+      image: ""
+    }
+  ],
+
+  "Miyagi": [
+    {
+      name: "Sendai Anpanman Children's Museum",
+      description: "A museum dedicated to Anpanman, where children can meet their favorite characters and play in themed areas.",
+      image: ""
+    },
+    {
+      name: "Nobiru Marine Park",
+      description: "A family-friendly park offering marine-themed attractions, including aquariums and boat rides.",
+      image: ""
+    },
+    {
+      name: "Zao Fox Village",
+      description: "A fun, interactive experience where families can see and interact with hundreds of adorable foxes.",
+      image: ""
+    }
+  ],
+
+  "Akita": [
+    {
+      name: "Akita Omoriyama Zoo",
+      description: "A zoo in Akita that features a variety of animals and a fun playground for children.",
+      image: ""
+    },
+    {
+      name: "Lake Tazawa",
+      description: "A beautiful lake offering outdoor activities such as kayaking and boating, ideal for families.",
+      image: ""
+    },
+    {
+      name: "Kakunodate Samurai District",
+      description: "A historical district where families can explore traditional samurai houses and enjoy outdoor activities.",
+      image: ""
+    }
+  ],
+
+  "Yamagata": [
+    {
+      name: "Yamadera (Risshakuji Temple)",
+      description: "A historical site with beautiful views and a hiking path, perfect for families who enjoy outdoor adventures.",
+      image: ""
+    },
+    {
+      name: "Zao Onsen Ski Resort",
+      description: "A popular ski resort where families can enjoy skiing, snowboarding, and relaxing in hot springs.",
+      image: ""
+    },
+    {
+      name: "Kajo Park",
+      description: "A large park with playgrounds, walking paths, and beautiful scenery, great for a family outing.",
+      image: ""
+    }
+  ],
+
+  "Fukushima": [
+    {
+      name: "Urahoro Children's Park",
+      description: "A large park featuring a variety of playgrounds, perfect for children to run, jump, and play.",
+      image: ""
+    },
+    {
+      name: "Fukushima Prefectural Museum of Art",
+      description: "A family-friendly museum with art exhibits and interactive activities for children.",
+      image: ""
+    },
+    {
+      name: "Adatara Kogen Ski Resort",
+      description: "A ski resort offering a range of winter sports activities, ideal for families looking for winter fun.",
+      image: ""
+    }
+  ],
+
+  "Ibaraki": [
+    {
+      name: "Hitachi Seaside Park",
+      description: "A large park famous for its seasonal flower fields, perfect for a family outing with beautiful nature.",
+      image: ""
+    },
+    {
+      name: "Kairakuen Garden",
+      description: "One of Japan's three great gardens, perfect for strolling with family and enjoying nature and seasonal flowers.",
+      image: ""
+    },
+    {
+      name: "Aqua World Ibaraki Prefectural Aquarium",
+      description: "An aquarium showcasing marine life from various regions, with interactive exhibits for children.",
+      image: ""
+    }
+  ],
+
+  "Tochigi": [
+    {
+      name: "Nikko Edomura",
+      description: "A historical theme park where families can experience the Edo period with performances and attractions.",
+      image: ""
+    },
+    {
+      name: "Utsunomiya Futarayama Shrine",
+      description: "A shrine offering a peaceful and family-friendly environment with beautiful nature and historic buildings.",
+      image: ""
+    },
+    {
+      name: "Oya History Museum",
+      description: "An underground museum where families can learn about the history of the Oya stone quarry.",
+      image: ""
+    }
+  ],
+
+  "Chiba": [
+    {
+      name: "Tokyo Disneyland",
+      description: "A magical theme park filled with Disney characters, exciting rides, and family-friendly attractions.",
+      image: ""
+    },
+    {
+      name: "Tokyo DisneySea",
+      description: "A unique Disney theme park based on the sea, offering maritime-themed adventures for all ages.",
+      image: ""
+    },
+    {
+      name: "Kidzania Tokyo",
+      description: "An interactive theme park where children can explore various professions through play and hands-on activities.",
+      image: ""
+    }
+  ],
+
+  "Kanagawa": [
+    {
+      name: "Yokohama Cosmo World",
+      description: "A waterfront amusement park with thrilling rides like the Cosmo Clock 21 Ferris wheel.",
+      image: ""
+    },
+    {
+      name: "Hakone Open-Air Museum",
+      description: "A large outdoor museum featuring sculptures and art installations that families can enjoy together.",
+      image: ""
+    },
+    {
+      name: "Zoorasia Yokohama Zoological Gardens",
+      description: "A zoo featuring animals from different continents, ideal for a fun and educational family trip.",
+      image: ""
+    }
+  ],
+
+  "Tokyo": [
+    {
+      name: "Tokyo Disneyland",
+      description: "A dreamland with Disney characters, thrilling rides, and unforgettable experiences for kids and families.",
+      image: ""
+    },
+    {
+      name: "Odaiba Palette Town",
+      description: "An indoor amusement park with family-friendly rides, a giant Ferris wheel, and exciting attractions for all ages.",
+      image: ""
+    },
+    {
+      name: "Asobono!",
+      description: "An indoor play center designed for children, offering ball pits, slides, and various interactive play zones.",
+      image: ""
+    }
+  ],
+
+  "Saitama": [
+    {
+      name: "Saitama Children's Zoo",
+      description: "A family-friendly zoo with a variety of animals, including petting areas where kids can interact with the animals.",
+      image: ""
+    },
+    {
+      name: "Kawagoe Hikawa Shrine",
+      description: "A beautiful shrine where families can enjoy cultural activities and seasonal events.",
+      image: ""
+    },
+    {
+      name: "Matsuri-no-Yu",
+      description: "A hot spring resort with indoor and outdoor baths, offering a relaxing experience for families.",
+      image: ""
+    }
+  ],
+
+  "Chiba": [
+    {
+      name: "Tokyo Disneyland",
+      description: "A magical theme park filled with Disney characters, exciting rides, and family-friendly attractions.",
+      image: ""
+    },
+    {
+      name: "Tokyo DisneySea",
+      description: "A theme park dedicated to maritime adventures, filled with Disney characters and themed rides.",
+      image: ""
+    },
+    {
+      name: "Kidzania Tokyo",
+      description: "An interactive, kid-friendly theme park where children can try different jobs and play in realistic settings.",
+      image: ""
+    }
+  ],
+
+  "Shizuoka": [
+    {
+      name: "Izu Shaboten Park",
+      description: "A park where families can enjoy seeing cactus, monkeys, and other animals in a beautiful natural setting.",
+      image: ""
+    },
+    {
+      name: "Fuji Safari Park",
+      description: "A wildlife park where families can drive through and observe a variety of animals from the comfort of their car.",
+      image: ""
+    },
+    {
+      name: "Atami Sun Beach",
+      description: "A beach ideal for family outings, with calm waters and nearby attractions for children.",
+      image: ""
+    }
+  ],
+
+  "Aichi": [
+    {
+      name: "Nagoya Legoland",
+      description: "A family-friendly theme park with Lego-inspired rides, attractions, and building activities for kids.",
+      image: ""
+    },
+    {
+      name: "Aichi Children's Zoo and Botanical Garden",
+      description: "A large zoo and botanical garden where families can enjoy outdoor activities and observe a variety of animals.",
+      image: ""
+    },
+    {
+      name: "Nagoya Port Aquarium",
+      description: "An aquarium where children can learn about marine life and explore hands-on exhibits.",
+      image: ""
+    }
+  ],
+
+  "Osaka": [
+    {
+      name: "Universal Studios Japan",
+      description: "A famous theme park offering thrilling rides, shows, and attractions based on popular movies and characters.",
+      image: ""
+    },
+    {
+      name: "Osaka Aquarium Kaiyukan",
+      description: "One of the largest aquariums in the world, featuring marine life from the Pacific Ocean and other regions.",
+      image: ""
+    },
+    {
+      name: "Osaka Tennoji Zoo",
+      description: "A zoo where families can see a variety of animals and enjoy interactive exhibits.",
+      image: ""
+    }
+  ],
+
+  "Hyogo": [
+    {
+      name: "Kobe Animal Kingdom",
+      description: "A zoo where visitors can interact with a variety of animals in a lush, tropical environment.",
+      image: ""
+    },
+    {
+      name: "Himeji City Zoo",
+      description: "A family-friendly zoo located near the famous Himeji Castle, offering a variety of animals and attractions.",
+      image: ""
+    },
+    {
+      name: "Rokkosan Country House",
+      description: "A family destination offering an assortment of outdoor activities, including a petting zoo and play areas.",
+      image: ""
+    }
+  ],
+
+  "Nara": [
+    {
+      name: "Nara Park",
+      description: "A large park famous for its friendly deer and historical sites, perfect for a family outing.",
+      image: ""
+    },
+    {
+      name: "Todaiji Temple",
+      description: "One of Japan’s most famous temples, housing a giant Buddha statue and surrounded by lush nature.",
+      image: ""
+    },
+    {
+      name: "Nara National Museum",
+      description: "A museum showcasing Japanese art and history, with interactive exhibits for children.",
+      image: ""
+    }
+  ],
+
+  "Wakayama": [
+    {
+      name: "Adventure World",
+      description: "A theme park with a zoo, aquarium, and amusement park rides, ideal for family fun.",
+      image: ""
+    },
+    {
+      name: "Wakayama Marina City",
+      description: "A seaside amusement park with a variety of attractions, including a Ferris wheel and roller coasters.",
+      image: ""
+    },
+    {
+      name: "Kimiidera Temple",
+      description: "A historical temple with beautiful gardens and views, perfect for a quiet family visit.",
+      image: ""
+    }
+  ],
+
+  "Tottori": [
+    {
+      name: "Tottori Sand Dunes Conan",
+      description: "An interactive sand dune park where families can enjoy camel rides and other sand-related activities.",
+      image: ""
+    },
+    {
+      name: "Tottori Zoo",
+      description: "A zoo with a variety of animals, perfect for a family outing with petting areas for kids.",
+      image: ""
+    },
+    {
+      name: "Hakuto Beach",
+      description: "A peaceful beach ideal for a family day out, with calm waters and sandy shores.",
+      image: ""
+    }
+  ],
+
+  "Shimane": [
+    {
+      name: "Shimane Art Museum",
+      description: "An art museum offering family-friendly exhibits and art workshops for children.",
+      image: ""
+    },
+    {
+      name: "Matsue Vogel Park",
+      description: "A bird park where families can interact with a variety of bird species in a beautiful outdoor setting.",
+      image: ""
+    },
+    {
+      name: "Iwami Ginzan Silver Mine",
+      description: "A UNESCO World Heritage site offering educational tours for families interested in history and mining.",
+      image: ""
+    }
+  ],
+
+  "Okayama": [
+    {
+      name: "Okayama Korakuen Garden",
+      description: "A beautiful garden ideal for families to explore and enjoy traditional Japanese landscape designs.",
+      image: ""
+    },
+    {
+      name: "Okayama Science Museum",
+      description: "A museum with interactive exhibits where children can learn about science in a fun and engaging way.",
+      image: ""
+    },
+    {
+      name: "Setonaikai National Park",
+      description: "A national park offering outdoor activities such as hiking, boating, and beach visits for families.",
+      image: ""
+    }
+  ],
+
+  "Hiroshima": [
+    {
+      name: "Hiroshima Peace Memorial Park",
+      description: "A historical park where families can learn about the history of Hiroshima and the significance of peace.",
+      image: ""
+    },
+    {
+      name: "Hiroshima Children's Museum",
+      description: "A museum designed for children, offering interactive exhibits and educational activities.",
+      image: ""
+    },
+    {
+      name: "Miyajima Island",
+      description: "A scenic island where families can visit historic temples and enjoy the beauty of nature together.",
+      image: ""
+    }
+  ],
+
+  "Yamaguchi": [
+    {
+      name: "Shimonoseki Marine Science Museum",
+      description: "A fun museum where families can learn about marine life, with hands-on exhibits and aquatic shows.",
+      image: ""
+    },
+    {
+      name: "Rurikoji Temple",
+      description: "A historical site famous for its five-story pagoda and scenic surroundings, perfect for family visits.",
+      image: ""
+    },
+    {
+      name: "Kintaikyo Bridge",
+      description: "A beautiful wooden bridge, perfect for a family walk and sightseeing in the surrounding area.",
+      image: ""
+    }
+  ],
+
+  "Fukuoka": [
+    {
+      name: "Fukuoka Children's Zoo",
+      description: "A zoo that features various animals and interactive exhibits, ideal for kids and families.",
+      image: ""
+    },
+    {
+      name: "Ohori Park",
+      description: "A large park with a lake, playgrounds, and open spaces for families to enjoy picnics and outdoor activities.",
+      image: ""
+    },
+    {
+      name: "Fukuoka Tower",
+      description: "A tall tower offering stunning views of Fukuoka and surrounding areas, with family-friendly attractions.",
+      image: ""
+    }
+  ],
+
+  "Okinawa": [
+    {
+      name: "Okinawa Churaumi Aquarium",
+      description: "One of the largest aquariums in the world, with an impressive collection of marine life and family-friendly exhibits.",
+      image: ""
+    },
+    {
+      name: "Okinawa World",
+      description: "A cultural theme park where families can experience traditional Okinawan culture, with caves and historical sites.",
+      image: ""
+    },
+    {
+      name: "American Village",
+      description: "A shopping and entertainment complex in Okinawa, offering various attractions and activities for families.",
+      image: ""
+    }
+  ]
+};
+
+
+        let questionSet = [];
+        let currentQuestionType = '';
+        let currentQuestionIndex = 0;
+        let scores = {
+
+"Hokkaido": 0,
+
+"Aomori": 0,
+
+"Iwate": 0,
+
+"Miyagi": 0,
+
+"Akita": 0,
+
+"Yamagata": 0,
+
+"Fukushima": 0,
+
+"Ibaraki": 0,
+
+"Tochigi": 0,
+
+"Gunma": 0,
+
+"Saitama": 0,
+
+"Chiba": 0,
+
+"Tokyo": 0,
+
+"Kanagawa": 0,
+
+"Niigata": 0,
+
+"Toyama": 0,
+
+"Ishikawa": 0,
+
+"Fukui": 0,
+
+"Yamanashi": 0,
+
+"Nagano": 0,
+
+"Gifu": 0,
+
+"Shizuoka": 0,
+
+"Aichi": 0,
+
+"Mie": 0,
+
+"Shiga": 0,
+
+"Kyoto": 0,
+
+"Osaka": 0,
+"Hyogo": 0,
+
+"Nara": 0,
+
+"Wakayama": 0,
+
+"Tottori": 0,
+
+"Shimane": 0,
+
+"Okayama": 0,
+
+"Hiroshima": 0,
+
+"Yamaguchi": 0,
+
+"Tokushima": 0,
+
+"Kagawa": 0,
+
+"Ehime": 0,
+
+"Kochi": 0,
+
+"Fukuoka": 0,
+
+"Saga": 0,
+
+"Nagasaki": 0,
+
+"Kumamoto": 0,
+
+"Oita": 0,
+
+"Miyazaki": 0,
+
+"Kagoshima": 0,
+
+"Okinawa": 0
+};
+        // クイズ開始処理
+        function startQuiz(type) {
+    currentQuestionType = type;
+
+    document.querySelector('.hero-banner').style.display = 'none';
+
+
+    if (type === 'normal') {
+        questionSet = normalQuestions;
+    } else if (type === 'noodle') {
+        questionSet = noodleQuestions;
+    } else if (type === 'play') {
+        questionSet = playQuestions;
+    }
+
+    document.getElementById("intro-container").style.display = "none";
+    document.getElementById("question-container").style.display = "block";
+    currentQuestionIndex = 0;  // 初期化
+    showQuestion();
+}
+
+
+
+        // 回答処理
+        function handleAnswer(answer) {
+            const currentQuestion = questionSet[currentQuestionIndex];
+            if (answer === "Yes") {
+                currentQuestion.yes?.forEach(pref => scores[pref]++);
+            } else if (answer === "No") {
+                currentQuestion.no?.forEach(pref => scores[pref]++);
+            } else {
+                currentQuestion.points[answer].forEach(pref => scores[pref]++);
+            }
+            
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questionSet.length) {
+                showQuestion();
+            } else {
+                if (currentQuestionType === 'normal') {
+                    showResults();
+                } else if (currentQuestionType === 'noodle') {
+                    showRamenResults();
+                } else if (currentQuestionType === 'play') {
+                    showplayResults();
+                }
+            }
+        }
+
+        // 観光地結果表示
+        function showResults() {
+            document.getElementById("question-container").style.display = "none";
+            document.getElementById("result").style.display = "block";
+            document.querySelector('.hero-banner').style.display = 'none';
+
+
+            const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+            const topTwo = sortedScores.slice(0, 2);
+            
+            const suggestedPlacesDiv = document.getElementById("suggested-places");
+            suggestedPlacesDiv.innerHTML = "<strong>The recommended travel destination is:</strong> " + topTwo[0][0] + " and " + topTwo[1][0];
+
+            const touristSpotsDiv = document.getElementById("tourist-spots");
+            const topPlace1 = topTwo[0][0];
+            const spots1 = touristSpots[topPlace1];
+            let spotsHtml1 = `<h3>${topPlace1} tourist spots:</h3>`;
+            spots1.forEach(spot => {
+                spotsHtml1 += `<p><strong>${spot.name}</strong>: ${spot.description}</p>`;
+            });
+
+            const topPlace2 = topTwo[1][0];
+            const spots2 = touristSpots[topPlace2];
+            let spotsHtml2 = `<h3>${topPlace2} tourist spots:</h3>`;
+            spots2.forEach(spot => {
+                spotsHtml2 += `<p><strong>${spot.name}</strong>: ${spot.description}</p>`;
+            });
+
+            touristSpotsDiv.innerHTML = spotsHtml1 + spotsHtml2;
+        }
+
+        // ラーメン結果表示
+function showRamenResults() {
+    document.getElementById("question-container").style.display = "none";
+    document.getElementById("result").style.display = "block";
+    document.querySelector('.hero-banner').style.display = 'none';
+
+
+    const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+    const topTwo = sortedScores.slice(0, 2);
+
+    const suggestedRamenDiv = document.getElementById("suggested-places");
+    suggestedRamenDiv.innerHTML = "<strong>The recommended travel destination is:</strong> " + topTwo[0][0] + " and " + topTwo[1][0];
+
+    const ramenSpotsDiv = document.getElementById("tourist-spots");
+    // ラーメン情報を表示
+    const topRamen1 = topTwo[0][0];
+    const ramen1 = ramenInfo[topRamen1];
+    let ramenHtml1 = `<h3>${topRamen1} noodle:</h3>`;
+    ramen1.forEach(ramen => {
+        ramenHtml1 += `<p><strong>${ramen.name}</strong>: ${ramen.description}</p>`;
+    });
+
+    const topRamen2 = topTwo[1][0];
+    const ramen2 = ramenInfo[topRamen2];
+    let ramenHtml2 = `<h3>${topRamen2} noodle:</h3>`;
+    ramen2.forEach(ramen => {
+        ramenHtml2 += `<p><strong>${ramen.name}</strong>: ${ramen.description}</p>`;
+    });
+
+    ramenSpotsDiv.innerHTML = ramenHtml1 + ramenHtml2;
+    }
+function showplayResults() {
+            document.getElementById("question-container").style.display = "none";
+            document.getElementById("result").style.display = "block";
+            document.querySelector('.hero-banner').style.display = 'none';
+
+
+            const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+            const topTwo = sortedScores.slice(0, 2);
+            
+            const suggestedPlacesDiv = document.getElementById("suggested-places");
+            suggestedPlacesDiv.innerHTML = "<strong>The recommended travel destination is:</strong> " + topTwo[0][0] + " and " + topTwo[1][0];
+
+            const playSpotsDiv = document.getElementById("tourist-spots");
+            const topPlace1 = topTwo[0][0];
+            const spots1 = playSpots[topPlace1];
+            let spotsHtml1 = `<h3>${topPlace1} play spots:</h3>`;
+            spots1.forEach(spot => {
+                spotsHtml1 += `<p><strong>${spot.name}</strong>: ${spot.description}</p>`;
+            });
+
+            const topPlace2 = topTwo[1][0];
+            const spots2 = playSpots[topPlace2];
+            let spotsHtml2 = `<h3>${topPlace2} play spots:</h3>`;
+            spots2.forEach(spot => {
+                spotsHtml2 += `<p><strong>${spot.name}</strong>: ${spot.description}</p>`;
+            });
+
+            playSpotsDiv.innerHTML = spotsHtml1 + spotsHtml2;
+        }
+
+        function goHome() {
+            document.getElementById("question-container").style.display = "none";
+            document.querySelector('.hero-banner').style.display = 'block';
+            document.getElementById('update-container').style.display = 'none';
+            document.getElementById('intro-container').style.display = 'block';
+            document.getElementById("result").style.display = "none";
+            document.getElementById('aboutJaporip-container').style.display = 'none';
+        }
+
+        function showUpdateInfo() {
+            document.getElementById("result").style.display = "none";
+            document.getElementById("question-container").style.display = "none";
+            document.querySelector('.hero-banner').style.display = 'none';
+            document.getElementById('intro-container').style.display = 'none';
+            document.getElementById('update-container').style.display = 'block';
+            document.getElementById('aboutJaporip-container').style.display = 'none';
+        }
+        function showAboutJaporip(){
+            document.getElementById("result").style.display = "none";
+            document.getElementById("question-container").style.display = "none";
+            document.querySelector('.hero-banner').style.display = 'none';
+            document.getElementById('intro-container').style.display = 'none';
+            document.getElementById('update-container').style.display = 'none';
+            document.getElementById('aboutJaporip-container').style.display = 'block';
+        }
+
+        function restartQuiz() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>

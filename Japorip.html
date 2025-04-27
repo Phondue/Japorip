@@ -9,13 +9,13 @@
     <style>
         /* 背景画像を設定 */
         body {
-            font-family: 'Lexend', sans-serif; /* Lexendフォントを設定 */
+            font-family: 'Lexend', sans-serif;
             margin: 0;
             padding: 20px;
             background-color: white;
-            background-size: cover; /* 画像が画面全体にフィットするように */
-            background-position: center; /* 画像が画面の中央に配置される */
-            background-attachment: fixed; /* スクロールしても背景が固定される */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -30,197 +30,158 @@
             font-size: 40px;
             color: #333;
         }
+
         h2 {
-            margin-top: 60px; /* Japoripとの間にスペースを空ける */
+            margin-top: 60px;
             font-size: 18px;
             color: #666;
         }
 
         .side-button {
-  background-color: transparent;  /* 背景を透明に */
-  color: #000000;                 /* 文字色 */
-  padding: 10px 20px;             /* ボタン内の余白 */
-  font-size: 25px;                /* 文字の大きさ */
-  cursor: pointer; 
-  font-family: 'Lexend', sans-serif !important;
-}
+            background-color: transparent;
+            color: #000000;
+            padding: 10px 20px;
+            font-size: 25px;
+            cursor: pointer; 
+            font-family: 'Lexend', sans-serif !important;
+        }
 
-#question-text {
+        #question-text {
             font-size: 25px;
         }
 
         /* サイドメニュー */
-.side-menu {
-  position: fixed;
-  top: 0;
-  font-family: 'Lexend', sans-serif;
-  right: -300px; /* ← 最初は画面外 */
-  width: 250px;
-  height: 100%;
-  background-color: #ffffff;
-  box-shadow: -2px 0 8px rgba(0,0,0,0.2);
-  padding: 20px;
-  margin-top: 80px;
-  transition: right 0.3s ease;
-  z-index: 1000;
-}
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 250px;
+            height: 100%;
+            background-color: #ffffff;
+            box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin-top: 80px;
+            transition: right 0.3s ease;
+            z-index: 1000;
+        }
 
-/* 表示されたとき */
-.side-menu.active {
-  right: 0; /* ← スライドしてくる */
-}
+        /* メニューが表示されたとき */
+        .side-menu.active {
+            right: 0;
+        }
 
-/* メニューの中身 */
-.side-menu ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 40px;
-}
+        .side-menu ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 40px;
+        }
 
-/* ヘッダーの全体レイアウト */
-.main-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 80px;
-  background-color: #dedede;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  z-index: 1000;
-}
+        /* ヘッダー */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background-color: #dedede;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+        }
 
-/* タイトル部分 */
-.header-title {
-  font-size: 40px;
-  font-weight: bold;
-  color: #333;
-}
+        .header-title {
+            font-size: 40px;
+            font-weight: bold;
+            color: #333;
+        }
 
-/* ボタンアイコンの並び */
-.header-buttons {
-  display: flex;
-  gap: 15px;
-  margin-right: 20px;
-}
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
 
-/* アイコンボタンの見た目 */
-.icon-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 5px;
-}
-
-.icon-button img {
-  width: 40px;
-  height: 40px;
-}
-
-        .hero-banner {
-    position: relative;
-    width: 100%;
-    height: 570px;
-    overflow: hidden;
-    margin-top: 80px;     /* 上のボタンと少し間をあける */
-    margin-bottom: 5px;   /* 下との余白も少し増やすと余裕が出ます */
-    border-radius: 50px;   /* 柔らかい角、100pxだと丸すぎることがあるので少し調整 */
-}
-@media  screen and (max-width: 768px) {
- .hero-banner {
-    position: relative;
-    width: 100%;
-    height: 190px;
-    overflow: hidden;
-    margin-bottom: 40px;   /* 下との余白も少し増やすと余裕が出ます */
-    border-radius: 50px;   /* 柔らかい角、100pxだと丸すぎることがあるので少し調整 */
-} 
-}
-
-
-.hero-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    image-rendering: auto;      /* ブラウザに最適な画質で表示させる */
-    display: block;
-    border-radius: inherit;     /* .hero-bannerの丸みに合わせる */
-}
-
-
-
-        /* メニューボタンのスタイルを調整（正方形にする） */
-        .menu-button {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end; /* テキストを下に寄せる */
-  align-items: center;
-  width: 200px;
-  height: 200px;  /* 高さを少し増やして、画像とテキストのスペース確保 */
-  padding: 10px;
-  background-color: #c0c0c0;
-  color: white;
-  border: none;
-  border-radius: 30%;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-family: 'Lexend', sans-serif !important;
-}
-
-.menu-button img {
-  width: 180px;     /* 横幅を小さくする */
-  height: 165px;    /* 高さも合わせて小さく */
-  object-fit: cover;
-  border-radius: 30%;
-  margin-bottom: 15px;
-  margin-top: 1px;
-}
-@media (max-width: 768px) {
-  .menu-button img{
-    width: 90px;
-    height: 75px;
-    object-fit: cover;
-    border-radius: 30%;
-    margin-bottom: 15px;
-    margin-top: 1px;
-  }}
-
-@media (max-width: 768px) {
-  .menu-button {
-    width: 110px;
-    height: 110px;
-    padding: 5px;
-  }}
-
-.menu-button {
-  position: relative; /* ← これ大事。btn-textのposition:absoluteの基準にするため */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.menu-button .btn-text {
-  position: relative; /* absoluteやめる */
-}
-
-
-      @media screen and (max-width: 768px) {
-        button {
-            padding: 30px 60px;
-            font-size: 8px;
+        .icon-button {
+            background: none;
+            border: none;
             cursor: pointer;
-            background-color: #e3e843ed;
+            padding: 5px;
+        }
+
+        .icon-button img {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* ヒーローバナー */
+        .hero-banner {
+            position: relative;
+            width: 100%;
+            height: 570px;
+            overflow: hidden;
+            margin-top: 80px;
+            margin-bottom: 5px;
+            border-radius: 50px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .hero-banner {
+                height: 190px;
+                margin-bottom: 40px;
+            }
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            image-rendering: auto;
+            display: block;
+            border-radius: inherit;
+        }
+
+        /* メニューボタン */
+        .menu-button {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            width: 200px;
+            height: 200px;
+            padding: 10px;
+            background-color: #c0c0c0;
             color: white;
             border: none;
-            border-radius: 1000px;
-            margin: 10px;
+            border-radius: 30%;
+            cursor: pointer;
             transition: background-color 0.3s;
-            font-family: 'Lexend', sans-serif !important;
-        }}
-        /* 他のボタンは元のスタイルを維持 */
+        }
+
+        .menu-button img {
+            width: 180px;
+            height: 165px;
+            object-fit: cover;
+            border-radius: 30%;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .menu-button img {
+                width: 90px;
+                height: 75px;
+            }
+
+            .menu-button {
+                width: 110px;
+                height: 110px;
+                padding: 5px;
+            }
+        }
+
+        /* ボタンスタイル */
         button {
             padding: 30px 60px;
             font-size: 25px;
@@ -232,6 +193,13 @@
             margin: 10px;
             transition: background-color 0.3s;
             font-family: 'Lexend', sans-serif !important;
+        }
+
+        @media screen and (max-width: 768px) {
+            button {
+                padding: 30px 60px;
+                font-size: 8px;
+            }
         }
 
 

@@ -41,7 +41,6 @@
   color: #000000;                 /* 文字色 */
   padding: 10px 20px;             /* ボタン内の余白 */
   font-size: 25px;                /* 文字の大きさ */
-  font-weight: bold;
   cursor: pointer; 
   font-family: 'Lexend', sans-serif !important;
 }
@@ -130,6 +129,18 @@
     margin-bottom: 5px;   /* 下との余白も少し増やすと余裕が出ます */
     border-radius: 50px;   /* 柔らかい角、100pxだと丸すぎることがあるので少し調整 */
 }
+@media (max-width: 768px) {
+ .hero-banner {
+    position: relative;
+    width: 100%;
+    height: 190px;
+    overflow: hidden;
+    margin-top: 80px;     /* 上のボタンと少し間をあける */
+    margin-bottom: 5px;   /* 下との余白も少し増やすと余裕が出ます */
+    border-radius: 50px;   /* 柔らかい角、100pxだと丸すぎることがあるので少し調整 */
+} 
+}
+
 
 .hero-image {
     width: 100%;
@@ -197,8 +208,19 @@
 }
 
 
-
-
+      @media (max-width: 768px) {
+        button {
+            padding: 30px 60px;
+            font-size: 15px;
+            cursor: pointer;
+            background-color: #e3e843ed;
+            color: white;
+            border: none;
+            border-radius: 1000px;
+            margin: 10px;
+            transition: background-color 0.3s;
+            font-family: 'Lexend', sans-serif !important;
+        }}
         /* 他のボタンは元のスタイルを維持 */
         button {
             padding: 30px 60px;

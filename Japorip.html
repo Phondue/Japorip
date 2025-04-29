@@ -223,7 +223,7 @@
         /* ボタンコンテナのスタイル */
         .question-container .button-container {
             display: flex;
-            flex-direction: row; /* 質問のボタンは横並び */
+            flex-direction: column; /* 質問のボタンは横並び */
             gap: 20px;
             align-items: center;
             justify-content: center;
@@ -298,7 +298,8 @@
         @media screen and (max-width:768px){
           #result {
             display: none;
-            margin-top: 100px;
+            position:absolute;
+            top: 110px;
         }}
 
         /* intro画面のボタン配置を横並び＋左寄せに */

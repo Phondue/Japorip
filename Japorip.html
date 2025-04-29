@@ -223,7 +223,7 @@
         /* ボタンコンテナのスタイル */
         .question-container .button-container {
             display: flex;
-            flex-direction: column; /* 質問のボタンは横並び */
+            flex-direction: row; /* 質問のボタンは横並び */
             gap: 20px;
             align-items: center;
             justify-content: center;
@@ -293,14 +293,20 @@
         /* 結果のスタイル */
         #result {
             display: none;
+            margin-top: 200px; 
         }
-        
         @media screen and (max-width:768px){
           #result {
             display: none;
-            position:absolute;
-            top: 110px;
+            margin-top: 110px;
         }}
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
 
         /* intro画面のボタン配置を横並び＋左寄せに */
         /* intro画面のボタン配置を横並び＋左寄せに */

@@ -152,8 +152,6 @@
             flex-direction: column;
             justify-content: flex-end;
             align-items: center;
-            width: 200px;
-            height: 200px;
             padding: 10px;
             background-color: #d4d4d4;
             color: rgb(255, 255, 255);
@@ -161,11 +159,14 @@
             border-radius: 30%;
             cursor: pointer;
             transition: background-color 0.3s;
+            width: 90%;           /* ←ここを追加 */
+            max-width: 200px;     /* ←ここを追加 */
+            height: auto; 
         }
 
         .menu-button img {
-            width: 180px;
-            height: 165px;
+            width: 100%;      /* ←ここを変更 */
+            height: auto;
             object-fit: cover;
             border-radius: 30%;
             margin-bottom: 15px;
@@ -173,8 +174,9 @@
 
         @media (max-width: 768px) {
             .menu-button img {
-                width: 99px;
-                height: 99px;
+              width: 90%;          /* ←ここを追加 */
+              max-width: 110px;    /* ←ここを追加 */
+              height: auto;
             }
 
             .menu-button {

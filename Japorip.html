@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <link rel="icon" href="images/Japorip_Logo-removebg-preview.png" type="image/png">
+  <link rel="icon" href="images/4efd11d6-d3cb-444c-a673-c038d8c9d693_removalai_preview.png" type="image/png">
   <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Japorip</title>
@@ -124,7 +124,7 @@
             height: 570px;
             overflow: hidden;
             margin-top: 80px;
-            margin-bottom: 5px;
+            margin-bottom: 30px;
             border-radius: 50px;
         }
 
@@ -145,6 +145,24 @@
             display: block;
             border-radius: inherit;
         }
+
+      
+        .badge {
+    position: absolute;
+    top: -55px;
+    left: -400px;
+    color: rgb(0, 0, 0);
+    padding: 5px 10px;
+    font-size: 40px;
+    border-radius: 12px;
+    z-index: 10;
+}
+
+/* 親に relative を設定 */
+.menu-button {
+    position: relative;
+}
+
 
         /* メニューボタン */
         .menu-button {
@@ -171,6 +189,7 @@
             margin-bottom: 15px;
         }
 
+
         @media (max-width: 768px) {
             .menu-button img {
                 width: 99px;
@@ -183,7 +202,8 @@
                 padding: 5px;
                 justify-content: flex-start; /* ← 上寄せ */
                 margin-top: 0px;
-                margin-bottom: 370px;
+                margin-bottom: 300px;
+                margin-left: -10px;
               }
         }
 
@@ -228,6 +248,7 @@
         .update-container {
             text-align: center;
             display: none;
+            margin-top: 100px;
         }
 
         .update-container h1 {
@@ -358,15 +379,16 @@
     <div class="intro-container" id="intro-container">
         <div class="button-container" id="button-container">
             <button class="menu-button" id="start-button" onclick="startQuiz('normal')">
-                <img src="https://www.free-materials.com/adm/wp-content/uploads/2019/04/adpDSC_3274-.jpg" alt="Pineapple Image">
+                <span class="badge">new→</span> <!-- ← 追加 -->
+                <img src="https://www.free-materials.com/adm/wp-content/uploads/2019/04/adpDSC_3274-.jpg" alt="?">
                 <span class="btn-text">Tourist spot</span>
             </button>
             <button class="menu-button" onclick="startQuiz('noodle')">
-                <img src="https://th.bing.com/th/id/OIP.s7OnmUychzUApz_4PrmmdgHaE8?rs=1&pid=ImgDetMain" alt="Pineapple Image">
+                <img src="https://th.bing.com/th/id/OIP.s7OnmUychzUApz_4PrmmdgHaE8?rs=1&pid=ImgDetMain" alt="?">
                 <span class="btn-text">Noodle</span>
             </button>
             <button class="menu-button" onclick="startQuiz('play')">
-              <img src="https://www.free-materials.com/adm/wp-content/uploads/2018/02/adpIMGP2441-.jpg" alt="Pineapple Image">
+              <img src="https://www.free-materials.com/adm/wp-content/uploads/2018/02/adpIMGP2441-.jpg" alt="?">
               <span class="btn-text">Play</span>
             </button>
         </div>

@@ -50,7 +50,6 @@
         #question-text {
             font-size: 25px;
             margin-top: 200px;
-            margin-left: 40px;
         }
 
         /* サイドメニュー */
@@ -190,7 +189,11 @@
             margin-bottom: 15px;
         }
 
-
+        @media (max-width: 768px) {
+    /* ボタンの親要素を中央揃えに */
+    #intro-container .button-container {
+        justify-content: center !important;
+    }}
         @media (max-width: 768px) {
             .menu-button img {
                 width: 99px;
@@ -204,7 +207,7 @@
                 justify-content: flex-start; /* ← 上寄せ */
                 margin-top: 0px;
                 margin-bottom: 300px;
-                margin-left: 40px;
+                margin-left: 0px;
               }
         }
         /* ボタンスタイル */
